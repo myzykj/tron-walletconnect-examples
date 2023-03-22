@@ -35,9 +35,12 @@ export async function approveTronRequest(
     case TRON_SIGNING_METHODS.TRON_SIGN_TRANSACTION:
       const transaction = request.params.transaction.transaction
       const txPb = TronWeb.utils.transaction.txJsonToPb(transaction)
+      const rawDataBytes = txPb.getRawData().serializeBinary();
+      const rawDataHex = TronWeb.utils.bytes.byteArray2hexStr(rawDataBytes);
       const txID = TronWeb.utils.transaction.txPbToTxID(txPb)
       if (
-        txID.replace(/^0x/, '').toLowerCase() === transaction.txID.replace(/^0x/, '').toLowerCase()
+        rawDataHex.toLowerCase() === transaction.raw_data_hex.toLowerCase() && txID.replace(/^0x/, '').toLowerCase() ===
+        transaction.txID.replace(/^0x/, '').toLowerCase()
       ) {
         const signedTransaction = await wallet.signTransaction(request.params.transaction)
         const resData = {
@@ -45,7 +48,7 @@ export async function approveTronRequest(
         }
         return formatJsonRpcResult(id, resData)
       } else {
-        throw new Error('Transction authentication failed')
+        throw new Error('Invalid transaction')
       }
 
     default:
