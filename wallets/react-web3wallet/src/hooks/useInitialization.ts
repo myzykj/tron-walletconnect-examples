@@ -4,6 +4,7 @@ import { createOrRestoreEIP155Wallet } from '@/utils/EIP155WalletUtil'
 import { createOrRestoreSolanaWallet } from '@/utils/SolanaWalletUtil'
 import { createOrRestorePolkadotWallet } from '@/utils/PolkadotWalletUtil'
 import { createOrRestoreMultiversxWallet } from '@/utils/MultiversxWalletUtil'
+import { createOrRestoreTronWallet } from '@/utils/TronWalletUtil'
 import { createWeb3Wallet } from '@/utils/WalletConnectUtil'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSnapshot } from 'valtio'
@@ -23,6 +24,7 @@ export default function useInitialization() {
       const { polkadotAddresses } = await createOrRestorePolkadotWallet()
       const { nearAddresses } = await createOrRestoreNearWallet()
       const { multiversxAddresses } = await createOrRestoreMultiversxWallet()
+      const { tronAddresses } = await createOrRestoreTronWallet()
 
       SettingsStore.setEIP155Address(eip155Addresses[0])
       SettingsStore.setCosmosAddress(cosmosAddresses[0])
@@ -30,6 +32,7 @@ export default function useInitialization() {
       SettingsStore.setPolkadotAddress(polkadotAddresses[0])
       SettingsStore.setNearAddress(nearAddresses[0])
       SettingsStore.setMultiversxAddress(multiversxAddresses[0])
+      SettingsStore.setTronAddress(tronAddresses[0])
       prevRelayerURLValue.current = relayerRegionURL
 
       await createWeb3Wallet(relayerRegionURL)

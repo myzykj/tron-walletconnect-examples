@@ -12,6 +12,7 @@ interface State {
   polkadotAddress: string
   nearAddress: string
   multiversxAddress: string
+  tronAddress: string
   relayerRegionURL: string
 }
 
@@ -27,6 +28,7 @@ const state = proxy<State>({
   polkadotAddress: '',
   nearAddress: '',
   multiversxAddress: '',
+  tronAddress: '',
   relayerRegionURL: ''
 })
 
@@ -58,12 +60,17 @@ const SettingsStore = {
   setNearAddress(nearAddress: string) {
     state.nearAddress = nearAddress
   },
+
   setRelayerRegionURL(relayerRegionURL: string) {
     state.relayerRegionURL = relayerRegionURL
   },
 
   setMultiversxAddress(multiversxAddress: string) {
     state.multiversxAddress = multiversxAddress
+  },
+
+  setTronAddress(tronAddress: string) {
+    state.tronAddress = tronAddress
   },
 
   toggleTestNets() {

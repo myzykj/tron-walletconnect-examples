@@ -7,13 +7,15 @@ import { cosmosAddresses } from '@/utils/CosmosWalletUtil'
 import { eip155Addresses } from '@/utils/EIP155WalletUtil'
 import { polkadotAddresses } from '@/utils/PolkadotWalletUtil'
 import { multiversxAddresses } from '@/utils/MultiversxWalletUtil'
+import { tronAddresses } from '@/utils/TronWalletUtil'
 import {
   isCosmosChain,
   isEIP155Chain,
   isSolanaChain,
   isPolkadotChain,
   isNearChain,
-  isMultiversxChain
+  isMultiversxChain,
+  isTronChain,
 } from '@/utils/HelperUtil'
 import { solanaAddresses } from '@/utils/SolanaWalletUtil'
 import { web3wallet } from '@/utils/WalletConnectUtil'
@@ -148,7 +150,16 @@ export default function SessionProposalModal() {
           chain={chain}
         />
       )
-    }
+    } else if (isTronChain(chain)) {
+      return (
+        <ProposalSelectSection
+          addresses={tronAddresses}
+          selectedAddresses={selectedAccounts[chain]}
+          onSelect={onSelectAccount}
+          chain={chain}
+        />
+      )
+    } 
   }
 
   return (

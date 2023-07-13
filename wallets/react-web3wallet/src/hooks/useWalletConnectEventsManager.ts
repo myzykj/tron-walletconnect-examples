@@ -3,6 +3,7 @@ import { EIP155_SIGNING_METHODS } from '@/data/EIP155Data'
 import { SOLANA_SIGNING_METHODS } from '@/data/SolanaData'
 import { POLKADOT_SIGNING_METHODS } from '@/data/PolkadotData'
 import { MULTIVERSX_SIGNING_METHODS } from '@/data/MultiversxData'
+import { TRON_SIGNING_METHODS } from '@/data/TronData'
 import ModalStore from '@/store/ModalStore'
 import { web3wallet } from '@/utils/WalletConnectUtil'
 import { SignClientTypes } from '@walletconnect/types'
@@ -78,7 +79,9 @@ export default function useWalletConnectEventsManager(initialized: boolean) {
         case MULTIVERSX_SIGNING_METHODS.MULTIVERSX_SIGN_LOGIN_TOKEN:
         case MULTIVERSX_SIGNING_METHODS.MULTIVERSX_SIGN_NATIVE_AUTH_TOKEN:
           return ModalStore.open('SessionSignMultiversxModal', { requestEvent, requestSession })
-
+        case TRON_SIGNING_METHODS.TRON_SIGN_MESSAGE:
+        case TRON_SIGNING_METHODS.TRON_SIGN_TRANSACTION:
+          return ModalStore.open('SessionSignTronModal', { requestEvent, requestSession })
         case NEAR_SIGNING_METHODS.NEAR_GET_ACCOUNTS:
           return web3wallet.respondSessionRequest({
             topic,

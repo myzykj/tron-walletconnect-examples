@@ -6,6 +6,7 @@ import { EIP155_MAINNET_CHAINS, EIP155_TEST_CHAINS } from '@/data/EIP155Data'
 import { SOLANA_MAINNET_CHAINS, SOLANA_TEST_CHAINS } from '@/data/SolanaData'
 import { POLKADOT_MAINNET_CHAINS, POLKADOT_TEST_CHAINS } from '@/data/PolkadotData'
 import { MULTIVERSX_MAINNET_CHAINS, MULTIVERSX_TEST_CHAINS } from '@/data/MultiversxData'
+import { TRON_MAINNET_CHAINS, TRON_TEST_CHAINS } from '@/data/TronData'
 import SettingsStore from '@/store/SettingsStore'
 import { Text } from '@nextui-org/react'
 import { Fragment } from 'react'
@@ -20,7 +21,8 @@ export default function HomePage() {
     solanaAddress,
     polkadotAddress,
     nearAddress,
-    multiversxAddress
+    multiversxAddress,
+    tronAddress,
   } = useSnapshot(SettingsStore.state)
 
   return (
@@ -46,6 +48,9 @@ export default function HomePage() {
       {Object.values(MULTIVERSX_MAINNET_CHAINS).map(({ name, logo, rgb }) => (
         <AccountCard key={name} name={name} logo={logo} rgb={rgb} address={multiversxAddress} />
       ))}
+      {Object.values(TRON_MAINNET_CHAINS).map(({name, logo, rgb}) => (
+        <AccountCard key={name} name={name} logo={logo} rgb={rgb} address={tronAddress}/>
+      ))}
 
       {testNets ? (
         <Fragment>
@@ -66,6 +71,9 @@ export default function HomePage() {
           ))}
           {Object.values(MULTIVERSX_TEST_CHAINS).map(({ name, logo, rgb }) => (
             <AccountCard key={name} name={name} logo={logo} rgb={rgb} address={multiversxAddress} />
+          ))}
+          {Object.values(TRON_TEST_CHAINS).map(({name, logo, rgb}) => (
+            <AccountCard key={name} name={name} logo={logo} rgb={rgb} address={tronAddress}/>
           ))}
         </Fragment>
       ) : null}
