@@ -1658,7 +1658,7 @@ export function JsonRpcContextProvider({
             address
           );
 
-        const result = await client!.request<{ signature: any }>({
+        const { result } = await client!.request<{ signature: any }>({
           chainId,
           topic: session!.topic,
           request: {
