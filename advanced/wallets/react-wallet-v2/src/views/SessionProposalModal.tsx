@@ -346,7 +346,8 @@ export default function SessionProposalModal() {
         //get capabilities for all reorderedEip155Accounts in wallet
         const capabilities = getWalletCapabilities(reorderedEip155Accounts)
         let sessionProperties = {
-          capabilities: JSON.stringify(capabilities)
+          capabilities: JSON.stringify(capabilities),
+          "tron_method_version": "v1"
         } as any
         if (namespaces.bip122) {
           const bip122Chain = namespaces.bip122.chains?.[0]!
