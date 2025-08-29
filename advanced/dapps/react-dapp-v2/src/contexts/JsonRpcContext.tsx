@@ -1646,7 +1646,7 @@ export function JsonRpcContextProvider({
         const testContract = isTestnet
           ? "TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf"
           : "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t";
-        const testTransaction =
+        const { transaction } =
           await tronWeb.transactionBuilder.triggerSmartContract(
             testContract,
             "approve(address,uint256)",
@@ -1658,17 +1658,26 @@ export function JsonRpcContextProvider({
             address
           );
 
-        const result = await client!.request<{ signature: any }>({
+        const sessionProperties = session!.sessionProperties;
+        const isV1Method = sessionProperties?.tron_method_version === "v1";
+
+        const result = await client!.request<{
+          signature: any;
+          result?: { signature: any };
+        }>({
           chainId,
           topic: session!.topic,
           request: {
             method: DEFAULT_TRON_METHODS.TRON_SIGN_TRANSACTION,
-            params: {
-              address,
-              transaction: {
-                ...testTransaction,
-              },
-            },
+            params: isV1Method
+              ? {
+                  address,
+                  transaction,
+                }
+              : {
+                  address,
+                  transaction: { transaction },
+                },
           },
         });
         console.log("tron sign transaction result", result);
@@ -1677,7 +1686,7 @@ export function JsonRpcContextProvider({
           method: DEFAULT_TRON_METHODS.TRON_SIGN_TRANSACTION,
           address,
           valid: true,
-          result: result.signature,
+          result: result.result ? result.result.signature : result.signature,
         };
       }
     ),
@@ -2053,7 +2062,7 @@ export function JsonRpcContextProvider({
 
         const utxosToSpend: any[] = [];
         let utxosValue = 0;
-        utxos.forEach((utxo) => {
+        utxos.forEach(utxo => {
           utxosValue += utxo.value;
           utxosToSpend.push(utxo);
           if (utxosValue >= satoshisToTransfer) {
