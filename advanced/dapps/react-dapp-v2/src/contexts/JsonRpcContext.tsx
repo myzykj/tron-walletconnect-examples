@@ -26,8 +26,7 @@ import {
   Transaction as SolanaTransaction,
   clusterApiUrl,
 } from "@solana/web3.js";
-// @ts-expect-error
-import TronWeb from "tronweb";
+import { TronWeb } from "tronweb";
 import {
   IPactCommand,
   PactCommand,
